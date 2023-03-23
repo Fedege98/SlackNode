@@ -1,3 +1,5 @@
+First, install the package:
+npm install @slack/web-api
 Make sure to replace YOUR-TOKEN-HERE with your Slack API token, CHANNEL_ID with the ID of the channel you want to send messages to its members, and YOUR_MESSAGE_HERE with the text message you want to send.
 
 To obtain your Slack API token, you will need to create a new Slack App with the necessary permissions. Follow these steps:
