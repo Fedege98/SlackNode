@@ -1,45 +1,52 @@
+// Import the required module
 const { WebClient } = require('@slack/web-api');
 
-// Replace with your Slack API token
-const token = 'xoxp-YOUR-TOKEN-HERE';
+// Replace the token with your own personal access token
+const token = 'YOUR_PERSONAL_ACCESS_TOKEN';
 
-// Replace with the ID of the channel you want to send messages to its members
-const channelId = 'CHANNEL_ID';
+// Replace the channel ID with the desired Slack channel ID
+const channelId = 'YOUR_SLACK_CHANNEL_ID';
 
-// Replace with the text message you want to send
-const message = 'YOUR_MESSAGE_HERE';
+// The message you want to send
+const message = 'Your custom text message here';
 
+// Initialize the Slack WebClient with your token
 const web = new WebClient(token);
 
-async function sendMessageToUser(userId) {
+// Function to send a message to a user
+async function sendDirectMessage(userId, message) {
   try {
-    const result = await web.conversations.open({
+    const imResponse = await web.conversations.open({
       users: userId,
     });
 
     await web.chat.postMessage({
-      channel: result.channel.id,
+      channel: imResponse.channel.id,
       text: message,
+      as_user: true,
     });
 
-    console.log(`Message sent to user ${userId}`);
+    console.log(`Message sent to ${userId}`);
   } catch (error) {
-    console.error(`Failed to send message to user ${userId}:`, error);
+    console.error(`Error sending message to ${userId}: ${error}`);
   }
 }
 
-async function sendMessagesToChannelMembers() {
+// Function to send the message to all members of the channel
+async function sendToChannelMembers(channelId, message) {
   try {
-    const { members } = await web.conversations.members({ channel: channelId });
+    const channelInfo = await web.conversations.info({ channel: channelId });
+    const members = channelInfo.channel.members;
 
-    for (const userId of members) {
-      await sendMessageToUser(userId);
+    for (const member of members) {
+      await sendDirectMessage(member, message);
     }
 
-    console.log('All messages sent.');
+    console.log('Message sent to all channel members.');
   } catch (error) {
-    console.error('Failed to get channel members:', error);
+    console.error(`Error sending message to channel members: ${error}`);
   }
 }
 
-sendMessagesToChannelMembers();
+// Send the message to all members of the channel
+sendToChannelMembers(channelId, message);
