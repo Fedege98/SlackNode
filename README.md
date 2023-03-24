@@ -1,3 +1,3 @@
-To use this script, you will need to replace the placeholders with your own Slack access token, channel ID, and user ID. You can find your user ID by going to your profile on Slack and clicking "More" -> "Copy Member ID".
+Before running this script, make sure to install the Slack SDK by running npm install @slack/web-api in your project directory.
+Replace 'YOUR_PERSONAL_ACCESS_TOKEN' with your personal access token and 'YOUR_SLACK_CHANNEL_ID' with the desired Slack channel ID. The message can be customized by changing the message variable.
 
-When you run the script, it will prompt you to enter the message you want to send. Once you enter the message, it will send it to the specified channel and then send a private message to each member of the channel (excluding yourself) with the message coming from you personally.
